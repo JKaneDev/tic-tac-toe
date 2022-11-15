@@ -1,0 +1,143 @@
+@import url('https://fonts.googleapis.com/css2?family=Chakra+Petch&display=swap');
+
+* {
+    font-family: 'Chakra Petch', Arial, Helvetica, sans-serif;
+    list-style: none;
+}
+
+img {
+    height: 40px;
+    width: 40px;
+}
+
+:root {
+    --color-container: #404040;
+    --color-subcontainer: #737373;
+    --font-color-main: #f5f5f5;
+    --button-color: #262626;
+    --font-color-secondary: #1d4ed8;
+}
+
+.container {
+    background-color: var(--color-container);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: .5em;
+    font-size: 1.5em;
+    font-weight: bolder;
+    letter-spacing: .3em;
+    color: var(--font-color-main);
+}
+
+.new-game-menu {
+    width: 600px;
+    height: 700px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 80px 1fr 50px 50px;
+    grid-template-areas: 
+        "head head"
+        "p1 p2"
+        "buttons buttons"
+        "foot foot";
+    gap: .5em;
+    padding: .5em;
+    margin-bottom: 5em;
+    background-color:var(--color-subcontainer);
+}
+
+.heading {
+    grid-area: head;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bolder;
+    padding-left: 2em;
+    letter-spacing: 1em;
+    color: var(--font-color-secondary);
+}
+
+.player-buttons {
+    padding: .75em 2em;
+    margin-bottom: 2em;
+    position: relative;
+    right: -40px;
+    appearance: none;
+    outline: none;
+    border: none;
+    box-shadow: var(--button-color) 0px 2px 8px 0px;
+    background-color: var(--button-color);
+    color: var(--font-color-main);
+    max-width: 150px;
+}
+
+.player-menus {
+    padding: 3em 0 0 2em;
+}
+
+
+.build-player-one .player-one-button {
+    position: relative;
+    
+}
+
+.build-player-two .player-two-button {
+    position: relative;
+    
+}
+
+.build-player-one {
+    grid-area: p1;
+
+}
+
+.build-player-two {
+    grid-area: p2;
+}
+
+.build-player-two .player-two-button {
+    cursor: pointer;
+}
+
+.options {
+    grid-area: buttons;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5em;
+}
+
+#restart, #start-game {
+    padding: .5em 1.25em;
+    letter-spacing: .25em;
+    font-weight: bolder;
+    cursor: pointer;
+    background-color: #262626;
+    color: var(--font-color-main);
+    outline: none;
+    appearance: none;
+    transition: all .25s ease-in-out;
+
+}
+
+#restart:hover, #start-game:hover {
+    transform: scale(1.02);
+    color: var(--font-color-secondary);
+    border: 2px solid var(--font-color-secondary);
+}
+
+.footer {
+    grid-area: foot;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

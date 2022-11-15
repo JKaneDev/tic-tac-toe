@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+		/>
 		<link rel="stylesheet" href="reset.css" />
 		<link rel="stylesheet" href="style.css" />
 		<script src="game.js" defer></script>
@@ -9,67 +13,84 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Tic Tac Toe</title>
 	</head>
+
 	<body>
 		<div class="container">
-
-			<header class="header">Tic Tac Toe</header>
+			<header class="header"><h1>Tic Tac Toe</h1></header>
 
 			<div class="new-game-menu">
+				<div class="heading"><h1>NEW GAME</h1></div>
 
-				<div class="heading"><p>NEW GAME</p></div>
+				<div class="player-menus build-player-one">
+					<button class="player-buttons player-one-button">Player One</button>
 
-				<div class="build-player-one">
+					<ul>
+						<li>
+							<h3>NAME</h3>
+							<input type="text" class="player-one-name" />
+						</li>
 
-					<button class="player-one-button">Player One</button>
-					<h3>NAME</h3>
-					<input type="text" class="player-one-name" />
-					<h3>CHARACTER</h3>
-					<div class="player-avatars">
-						<img src="" alt="" /><img src="" alt="" /><img src="" alt="" /><img
-							src=""
-							alt=""
-						/>
-					</div>
-					<h3>MARK</h3>
-					<div class="player-weapons">
-						<img src="" alt="" /><img src="" alt="" /><img src="" alt="" /><img
-							src=""
-							alt=""
-						/>
-					</div>
+						<li>
+							<h3>CHARACTER</h3>
+							<div class="player-avatars">
+								<img src="img/avatar1.svg" alt="avatar img" />
+								<img src="img/avatar2.svg" alt="avatar img" />
+								<img src="img/avatar3.svg" alt="avatar img" />
+								<img src="img/avatar4.svg" alt="avatar img" />
+							</div>
+						</li>
 
+						<li>
+							<h3>MARK</h3>
+							<div class="player-weapons">
+								<img src="img/crossbow.svg" alt="weapon choice" />
+								<img src="img/sword.svg" alt="weapon choice" />
+								<img src="img/sabres.svg" alt="weapon choice" />
+								<img src="img/gun.svg" alt="weapon choice" />
+							</div>
+						</li>
+					</ul>
 				</div>
 
-				<div class="build-player-2">
+				<div class="player-menus build-player-two">
+					<button class="player-buttons player-two-button">Player Two</button>
 
-					<button class="player-one-button">Player One</button>
-					<h3>NAME</h3>
-					<input type="text" class="player-one-name" />
-					<h3>CHARACTER</h3>
-					<div class="player-avatars">
-						<img src="" alt="" /><img src="" alt="" /><img src="" alt="" /><img
-							src=""
-							alt=""
-						/>
-					</div>
-					<h3>MARK</h3>
-					<div class="player-weapons">
-						<img src="" alt="" /><img src="" alt="" /><img src="" alt="" /><img
-							src=""
-							alt=""
-						/>
-					</div>
+					<ul>
+						<li>
+							<h3>NAME</h3>
+							<input type="text" class="player-names player-one-name" />
+						</li>
+
+						<li>
+							<h3>CHARACTER</h3>
+							<div class="player-avatars">
+								<img src="img/avatar1.svg" alt="avatar img" />
+								<img src="img/avatar2.svg" alt="avatar img" />
+								<img src="img/avatar3.svg" alt="avatar img" />
+								<img src="img/avatar4.svg" alt="avatar img" />
+							</div>
+						</li>
+
+						<li>
+							<h3>MARK</h3>
+							<div class="player-weapons">
+								<img src="img/crossbow.svg" alt="weapon choice" />
+								<img src="img/sword.svg" alt="weapon choice" />
+								<img src="img/sabres.svg" alt="weapon choice" />
+								<img src="img/gun.svg" alt="weapon choice" />
+							</div>
+						</li>
+					</ul>
 				</div>
 
-				<div>
-                    <button id="restart">RESTART</button><button id="start-game">START GAME</button>
+				<div class="options">
+					<button id="restart">RESTART</button
+					><button id="start-game">START GAME</button>
+				</div>
 
-                </div>
-
-				<footer>
-
-
-                </footer class="footer">
+				<footer class="footer">
+					<p>jkane <i class="fa fa-github"></i>The Odin Project &copy;</p>
+				</footer>
 			</div>
 		</div>
 	</body>
