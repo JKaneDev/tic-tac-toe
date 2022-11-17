@@ -7,6 +7,7 @@
 		/>
 		<link rel="stylesheet" href="reset.css" />
 		<link rel="stylesheet" href="style.css" />
+		<script type="module" src="gameboard.js" defer></script>
 		<script src="game.js" defer></script>
 		<meta charset="UTF-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -16,9 +17,11 @@
 
 	<body>
 		<div class="container">
-			<header class="header"><h1>Tic Tac Toe</h1></header>
+			<header class="header">
+				<h1>Tic <strong>Tac</strong> Toe</h1>
+			</header>
 
-			<div class="new-game-menu">
+			<div class="game-container new-game-menu">
 				<div class="heading"><h1>NEW GAME</h1></div>
 
 				<div class="player-menus build-player-one">
@@ -26,58 +29,112 @@
 
 					<ul>
 						<li>
-							<h3>NAME</h3>
-							<input type="text" class="player-one-name" />
-						</li>
-
-						<li>
 							<h3>CHARACTER</h3>
 							<div class="player-avatars">
-								<img src="img/avatar1.svg" alt="avatar img" />
-								<img src="img/avatar2.svg" alt="avatar img" />
-								<img src="img/avatar3.svg" alt="avatar img" />
-								<img src="img/avatar4.svg" alt="avatar img" />
+								<img
+									src="img/avatar1.svg"
+									alt="avatar img"
+									class="avatars avatar-one"
+								/>
+								<img
+									src="img/avatar2.svg"
+									alt="avatar img"
+									class="avatars avatar-two"
+								/>
+								<img
+									src="img/avatar3.svg"
+									alt="avatar img"
+									class="avatars avatar-three"
+								/>
+								<img
+									src="img/avatar4.svg"
+									alt="avatar img"
+									class="avatars avatar-four"
+								/>
 							</div>
 						</li>
 
 						<li>
-							<h3>MARK</h3>
+							<h3>WEAPON</h3>
 							<div class="player-weapons">
-								<img src="img/crossbow.svg" alt="weapon choice" />
-								<img src="img/sword.svg" alt="weapon choice" />
-								<img src="img/sabres.svg" alt="weapon choice" />
-								<img src="img/gun.svg" alt="weapon choice" />
+								<img
+									src="img/crossbow.svg"
+									alt="weapon choice"
+									class="weapons crossbow"
+								/>
+								<img
+									src="img/sword.svg"
+									alt="weapon choice"
+									class="weapons sword"
+								/>
+								<img
+									src="img/sabres.svg"
+									alt="weapon choice"
+									class="weapons sabres"
+								/>
+								<img
+									src="img/gun.svg"
+									alt="weapon choice"
+									class="weapons gun"
+								/>
 							</div>
 						</li>
 					</ul>
 				</div>
 
 				<div class="player-menus build-player-two">
-					<button class="player-buttons player-two-button">Player Two</button>
+					<button class="player-buttons player-two-button">Human</button>
 
 					<ul>
 						<li>
-							<h3>NAME</h3>
-							<input type="text" class="player-names player-one-name" />
-						</li>
-
-						<li>
 							<h3>CHARACTER</h3>
 							<div class="player-avatars">
-								<img src="img/avatar1.svg" alt="avatar img" />
-								<img src="img/avatar2.svg" alt="avatar img" />
-								<img src="img/avatar3.svg" alt="avatar img" />
-								<img src="img/avatar4.svg" alt="avatar img" />
+								<img
+									src="img/avatar1.svg"
+									alt="avatar img"
+									class="avatars avatar-one"
+								/>
+								<img
+									src="img/avatar2.svg"
+									alt="avatar img"
+									class="avatars avatar-two"
+								/>
+								<img
+									src="img/avatar3.svg"
+									alt="avatar img"
+									class="avatars avatar-three"
+								/>
+								<img
+									src="img/avatar4.svg"
+									alt="avatar img"
+									class="avatars avatar-four"
+								/>
 							</div>
 						</li>
 
 						<li>
-							<h3>MARK</h3>
+							<h3>WEAPON</h3>
 							<div class="player-weapons">
-								<img src="img/crossbow.svg" alt="weapon choice" />
-								<img src="img/sword.svg" alt="weapon choice" />
-								<img src="img/sabres.svg" alt="weapon choice" />
-								<img src="img/gun.svg" alt="weapon choice" />
+								<img
+									src="img/crossbow.svg"
+									alt="weapon choice"
+									class="weapons crossbow"
+								/>
+								<img
+									src="img/sword.svg"
+									alt="weapon choice"
+									class="weapons sword"
+								/>
+								<img
+									src="img/sabres.svg"
+									alt="weapon choice"
+									class="weapons sabres"
+								/>
+								<img
+									src="img/gun.svg"
+									alt="weapon choice"
+									class="weapons gun"
+								/>
 							</div>
 						</li>
 					</ul>
@@ -87,9 +144,8 @@
 					<button id="restart">RESTART</button
 					><button id="start-game">START GAME</button>
 				</div>
-
 				<footer class="footer">
-					<p>jkane <i class="fa fa-github"></i>The Odin Project &copy;</p>
+					<p>jkane <i class="fa fa-github"></i> The Odin Project &copy;</p>
 				</footer>
 			</div>
 		</div>
