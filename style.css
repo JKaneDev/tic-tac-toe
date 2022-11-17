@@ -67,6 +67,32 @@ body {
     box-shadow: var(--button-color) 0px 5px 15px;
 }
 
+.game-container.game-active {
+    width: 95%;
+    height: 600px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: .5rem;
+    background-color:var(--color-subcontainer);
+    box-shadow: var(--button-color) 0px 5px 15px;
+}
+
+.board-container {
+    display: grid;
+    grid-template-columns: repeat(3, 150px);
+    grid-template-rows: repeat(3, 150px);
+    border: .5rem solid var(--button-color);
+    box-shadow: var(--button-color) 0px 5px 15px;
+}
+
+.board-cells {
+    background-color: var(--color-subcontainer);
+    border: .125rem solid var(--button-color); 
+}
+
+/* board cell styling */
+
 .heading {
     grid-area: head;
     display: flex;
