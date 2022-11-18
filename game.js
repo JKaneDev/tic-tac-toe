@@ -65,33 +65,33 @@ const preGameMenu = (() => {
 		gameContainer.appendChild(_boardContainer);
 	};
 
-	// const _createStatContainer = () => {
-	// 	//get src for character and weapon imgs
-	// 	let _character = getPlayerCharacter();
-	// 	let _weapon = getPlayerWeapon();
+	const _createPlayerOneStats = () => {
+		//get src for character and weapon imgs
+        let _character = _playerOne.character;
+		let _weapon = _playerOne.weapon;
 
-	// 	let _statContainer = document.createElement('div');
-	// 	_statContainer.classList.add('stat-container');
+		let _statContainer = document.createElement('div');
+		_statContainer.classList.add('stat-container');
 
-	// 	let _characterBox = document.createElement('div');
-	// 	let _characterImg = document.createElement('img');
-	// 	_characterImg.setAttribute('src', `${_characterImg}`);
-	// 	_characterBox.appendChild(_character);
+		let _characterBox = document.createElement('div');
+		let _characterImg = document.createElement('img');
+		_characterImg.setAttribute('src', `${_character}`);
+		_characterBox.appendChild(_characterImg);
 
-	// 	let _weaponBox = document.createElement('div');
-	// 	let _weaponImg = document.createElement('img');
-	// 	_weaponImg.setAttribute('src', `${_weaponImg}`);
-	// 	_weaponBox.appendChild(_weapon);
+		let _weaponBox = document.createElement('div');
+		let _weaponImg = document.createElement('img');
+		_weaponImg.setAttribute('src', `${_weapon}`);
+		_weaponBox.appendChild(_weaponImg);
 
-	// 	let _resultSpan = document.createElement('span');
-	// 	_resultSpan.classList.add('result-span');
+		let _resultSpan = document.createElement('span');
+		_resultSpan.classList.add('result-span');
 
-	// 	_statContainer.appendChild(_characterBox);
-	// 	_statContainer.appendChild(_weaponBox);
-	// 	_statContainer.appendChild(_resultSpan);
+		_statContainer.appendChild(_characterBox);
+		_statContainer.appendChild(_weaponBox);
+		_statContainer.appendChild(_resultSpan);
 
-	// 	gameContainer.appendChild(_statContainer);
-	// };
+		gameContainer.appendChild(_statContainer);
+	};
 
 	const markBoard = (e) => {};
 
@@ -103,7 +103,7 @@ const preGameMenu = (() => {
 
 	const startGame = () => {
 		_clearDisplay();
-		_getPlayerOne();
+		_createPlayerOneStats();
 		_createBoard();
 		_changeDisplay();
 	};
