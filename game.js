@@ -20,6 +20,7 @@ const preGameMenu = (() => {
 		_avatars.forEach((avatar) =>
 			avatar.addEventListener('click', addAvatarSrcToArray)
 		);
+        return _avatarImgs[0];
 	};
 
 	//add avatar src to array
@@ -35,6 +36,7 @@ const preGameMenu = (() => {
 		weapons.forEach((weapon) =>
 			weapon.addEventListener('click', addWeaponSrcToArray)
 		);
+        return _weaponImgs[0]
 	};
 
     //add weapon src to array
@@ -64,6 +66,14 @@ const preGameMenu = (() => {
             _boardCell.addEventListener('click', markBoard);
         }
         gameContainer.appendChild(_boardContainer);
+    }
+
+    const createPlayerStats = () => {
+        let _character = getPlayerCharacter();
+        let _weapon = getPlayerWeapon();
+
+        let stats = [_character, _weapon];
+        return stats;
     }
 
     const markBoard = (e) => {
