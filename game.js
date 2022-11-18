@@ -1,3 +1,5 @@
+const { spawn } = require("child_process");
+
 const container = document.querySelector('.container');
 const gameContainer = document.querySelector('.game-container');
 const enemyToggleBtn = document.querySelector('.player-two-button');
@@ -68,12 +70,33 @@ const preGameMenu = (() => {
         gameContainer.appendChild(_boardContainer);
     }
 
-    const createPlayerStats = () => {
+
+    const createStatContainer = () => {
+        //get src for character and weapon imgs
         let _character = getPlayerCharacter();
         let _weapon = getPlayerWeapon();
 
-        let stats = [_character, _weapon];
-        return stats;
+        let _statContainer = document.createElement('div');
+        _statContainer.classList.add('stat-container');
+
+        let _characterBox = document.createElement('div');
+        let _characterImg = document.createElement('img')
+        _characterImg.setAttribute('src', `${_characterImg}`);
+        _characterBox.appendChild(_character);
+
+        let _weaponBox = document.createElement('div');
+        let _weaponImg = document.createElement('img');
+        _weaponImg.setAttribute('src', `${_weaponImg}`);
+        _weaponBox.appendChild(_weapon);
+
+        let _resultSpan = document.createElement('span');
+        _resultSpan.classList.add('result-span');
+
+        _statContainer.appendChild(_characterBox);
+        _statContainer.appendChild(_weaponBox);
+        _statContainer.appendChild(_resultSpan);
+
+        gameContainer.appendChild(_statContainer);
     }
 
     const markBoard = (e) => {
