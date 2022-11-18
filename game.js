@@ -13,32 +13,35 @@ const gun = document.querySelector('.gun');
 const restartGameBtn = document.querySelector('#restart');
 
 const preGameMenu = (() => {
-	//get player ones character
-	const getPlayerCharacter = (e) => {
-		const _avatars = Array.from(document.querySelectorAll('.avatars'));
+
+	const getPlayerAvatar = (() => {
+		const _avatars = Array.from(
+			document.querySelectorAll('.avatars-player-one')
+		);
 		_avatars.forEach((avatar) =>
-			avatar.addEventListener('click', () => {
-				let _avatarImgs = [];
-				_avatarImgs.push(e.target.src);
+			avatar.addEventListener('click', (e) => {
+				_playerOne.character = e.target.src;
+                console.log(_playerOne);
 			})
 		);
-		return _avatarImgs[0];
-	};
+	})();
 
-	//get player ones weapon
-	const getPlayerWeapon = (e) => {
-		const weapons = Array.from(document.querySelectorAll('.weapons'));
-		weapons.forEach((weapon) =>
-			weapon.addEventListener('click', addWeaponSrcToArray)
+    const getPlayerWeapon = (() => {
+        const _weapons = Array.from(
+			document.querySelectorAll('.weapons-player-one')
 		);
-		return _weaponImgs[0];
-	};
+		_weapons.forEach((weapon) =>
+			weapon.addEventListener('click', (e) => {
+				_playerOne.weapon = e.target.src;
+                console.log(_playerOne);
+			})
+		);
+    })();
 
-	//add weapon src to array
-	const addWeaponSrcToArray = (e) => {
-		let _weaponImgs = [];
-		_weaponImgs.push(e.target.src);
-		return _weaponImgs;
+	// player one object literal
+	const _playerOne = {
+		character: '',
+		weapon: '',
 	};
 
 	//clear display
@@ -62,33 +65,33 @@ const preGameMenu = (() => {
 		gameContainer.appendChild(_boardContainer);
 	};
 
-	const _createStatContainer = () => {
-		//get src for character and weapon imgs
-		let _character = getPlayerCharacter();
-		let _weapon = getPlayerWeapon();
+	// const _createStatContainer = () => {
+	// 	//get src for character and weapon imgs
+	// 	let _character = getPlayerCharacter();
+	// 	let _weapon = getPlayerWeapon();
 
-		let _statContainer = document.createElement('div');
-		_statContainer.classList.add('stat-container');
+	// 	let _statContainer = document.createElement('div');
+	// 	_statContainer.classList.add('stat-container');
 
-		let _characterBox = document.createElement('div');
-		let _characterImg = document.createElement('img');
-		_characterImg.setAttribute('src', `${_characterImg}`);
-		_characterBox.appendChild(_character);
+	// 	let _characterBox = document.createElement('div');
+	// 	let _characterImg = document.createElement('img');
+	// 	_characterImg.setAttribute('src', `${_characterImg}`);
+	// 	_characterBox.appendChild(_character);
 
-		let _weaponBox = document.createElement('div');
-		let _weaponImg = document.createElement('img');
-		_weaponImg.setAttribute('src', `${_weaponImg}`);
-		_weaponBox.appendChild(_weapon);
+	// 	let _weaponBox = document.createElement('div');
+	// 	let _weaponImg = document.createElement('img');
+	// 	_weaponImg.setAttribute('src', `${_weaponImg}`);
+	// 	_weaponBox.appendChild(_weapon);
 
-		let _resultSpan = document.createElement('span');
-		_resultSpan.classList.add('result-span');
+	// 	let _resultSpan = document.createElement('span');
+	// 	_resultSpan.classList.add('result-span');
 
-		_statContainer.appendChild(_characterBox);
-		_statContainer.appendChild(_weaponBox);
-		_statContainer.appendChild(_resultSpan);
+	// 	_statContainer.appendChild(_characterBox);
+	// 	_statContainer.appendChild(_weaponBox);
+	// 	_statContainer.appendChild(_resultSpan);
 
-		gameContainer.appendChild(_statContainer);
-	};
+	// 	gameContainer.appendChild(_statContainer);
+	// };
 
 	const markBoard = (e) => {};
 
@@ -100,7 +103,7 @@ const preGameMenu = (() => {
 
 	const startGame = () => {
 		_clearDisplay();
-		_createStatContainer();
+		_getPlayerOne();
 		_createBoard();
 		_changeDisplay();
 	};
