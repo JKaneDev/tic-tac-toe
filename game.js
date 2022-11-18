@@ -14,8 +14,8 @@ const restartGameBtn = document.querySelector('#restart');
 
 const preGameMenu = (() => {
 
-	const getPlayerAvatar = (() => {
-		const _avatars = Array.from(
+	const getPlayerOneAvatar = (() => {
+		let _avatars = Array.from(
 			document.querySelectorAll('.avatars-player-one')
 		);
 		_avatars.forEach((avatar) =>
@@ -26,8 +26,8 @@ const preGameMenu = (() => {
 		);
 	})();
 
-    const getPlayerWeapon = (() => {
-        const _weapons = Array.from(
+    const getPlayerOneWeapon = (() => {
+        let _weapons = Array.from(
 			document.querySelectorAll('.weapons-player-one')
 		);
 		_weapons.forEach((weapon) =>
@@ -38,11 +38,40 @@ const preGameMenu = (() => {
 		);
     })();
 
+    const getOpponentAvatar = (() => {
+        let _avatars = Array.from(
+			document.querySelectorAll('.avatars-opponent')
+		);
+		_avatars.forEach((avatar) =>
+			avatar.addEventListener('click', (e) => {
+				_opponent.character = e.target.src;
+                console.log(_opponent);
+			})
+		);
+    })();
+
+    const getOpponentWeapon = (() => {
+        let _weapons = Array.from(
+			document.querySelectorAll('.weapons-opponent')
+		);
+		_weapons.forEach((weapon) =>
+			weapon.addEventListener('click', (e) => {
+				_opponent.weapon = e.target.src;
+                console.log(_opponent);
+			})
+		);
+    })();
+
 	// player one object literal
 	const _playerOne = {
 		character: '',
 		weapon: '',
 	};
+
+    const _opponent = {
+        character: '',
+        weapon: '',
+    }
 
 	//clear display
 	const _clearDisplay = () => {
@@ -85,6 +114,7 @@ const preGameMenu = (() => {
 
 		let _resultSpan = document.createElement('span');
 		_resultSpan.classList.add('result-span');
+        _resultSpan.innerText = "Result";
 
 		_statContainer.appendChild(_characterBox);
 		_statContainer.appendChild(_weaponBox);
@@ -92,6 +122,34 @@ const preGameMenu = (() => {
 
 		gameContainer.appendChild(_statContainer);
 	};
+
+    const _createPlayerTwoStats = () => {
+        let _character = _opponent.character;
+		let _weapon = _opponent.weapon;
+
+		let _statContainer = document.createElement('div');
+		_statContainer.classList.add('stat-container');
+
+		let _characterBox = document.createElement('div');
+		let _characterImg = document.createElement('img');
+		_characterImg.setAttribute('src', `${_character}`);
+		_characterBox.appendChild(_characterImg);
+
+		let _weaponBox = document.createElement('div');
+		let _weaponImg = document.createElement('img');
+		_weaponImg.setAttribute('src', `${_weapon}`);
+		_weaponBox.appendChild(_weaponImg);
+
+		let _resultSpan = document.createElement('span');
+		_resultSpan.classList.add('result-span');
+        _resultSpan.innerText = "Result";
+
+		_statContainer.appendChild(_characterBox);
+		_statContainer.appendChild(_weaponBox);
+		_statContainer.appendChild(_resultSpan);
+
+		gameContainer.appendChild(_statContainer);
+    }
 
 	const markBoard = (e) => {};
 
@@ -105,6 +163,7 @@ const preGameMenu = (() => {
 		_clearDisplay();
 		_createPlayerOneStats();
 		_createBoard();
+        _createPlayerTwoStats();
 		_changeDisplay();
 	};
 

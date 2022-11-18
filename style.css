@@ -6,8 +6,8 @@
 }
 
 img {
-    height: 40px;
-    width: 40px;
+    height: 45px;
+    width: 45px;
     margin: .25rem;
     transition: all .25s ease;
 }
@@ -23,6 +23,8 @@ body {
     --button-color: #262626;
     --font-color-secondary: #1d4ed8;
 }
+
+/* container and header styling */
 
 .container {
     background-color: var(--color-container);
@@ -50,6 +52,8 @@ body {
     color: rgb(212, 117, 29);
 }
 
+/* start menu styling */
+
 .game-container.new-game-menu {
     width: 600px;
     height: 700px;
@@ -67,15 +71,44 @@ body {
     box-shadow: var(--button-color) 0px 5px 15px;
 }
 
+/* active game board styling */
+
 .game-container.game-active {
     width: 95%;
     height: 600px;
     display: flex;
     justify-content: center;
     align-items: center;
+    gap: 1rem;
     padding: .5rem;
     background-color:var(--color-subcontainer);
     box-shadow: var(--button-color) 0px 5px 15px;
+}
+
+.game-container.game-active img {
+    height: 100px;
+    width: 100px;
+}
+
+.game-container.game-active span {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    font-weight: bolder;
+    color: var(--font-color-main);
+}
+
+.game-container.game-active .stat-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 3rem;
+    padding: 1.5rem 1rem;
+    background-color: var(--color-container);
+    box-shadow: var(--button-color) 0px 2px 8px 0px;
+    border-bottom: .2rem solid var(--font-color-secondary);
 }
 
 .board-container {
@@ -107,7 +140,7 @@ body {
     border-bottom: .2rem solid var(--font-color-secondary);
 }
 
-/* Player Menus */
+/* Start menu player menus */
 
 .build-player-one {
     grid-area: p1;
@@ -136,14 +169,6 @@ body {
 
 .player-two-button:hover {
     color: var(--font-color-secondary);
-}
-
-.player-two-button.human {
-    content: 'Human';
-}
-
-.player-two-button.bot {
-    content: 'Bot';
 }
 
 .player-menus ul {
@@ -184,6 +209,8 @@ body {
     cursor: pointer;
 }
 
+/* options menu restart and start game styling */
+
 .options {
     grid-area: buttons;
     display: flex;
@@ -216,6 +243,8 @@ body {
     color: var(--font-color-secondary);
     border: .25rem solid var(--font-color-secondary);
 }
+
+/* footer styling */
 
 .footer {
     grid-area: foot;
