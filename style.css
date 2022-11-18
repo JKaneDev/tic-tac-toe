@@ -197,6 +197,7 @@ body {
     color: var(--font-color-main);
     padding: .35rem .5rem;
     border: .25rem solid var(--button-color);
+
 }
 
 .player-menus input:active {
@@ -207,6 +208,14 @@ body {
 .player-menus.human:hover {
     transform: scale(1.2);
     cursor: pointer;
+}
+
+.player-menus img.selected {
+    transform: scale(1.2);
+    border-radius: 1rem;
+    border-bottom: 2px solid var(--button-color);
+    border-top: 2px solid var(--button-color);
+    padding: .35rem 0;
 }
 
 /* options menu restart and start game styling */

@@ -14,12 +14,23 @@ const restartGameBtn = document.querySelector('#restart');
 
 const preGameMenu = (() => {
 
+    const toggleSelect = (e) => {
+        let otherSelections = Array.from(e.target.parentNode.children);
+        otherSelections.forEach(selection => {
+                if (selection.classList.contains('selected')) {
+                    selection.classList.remove('selected');
+                }
+            });
+            e.target.classList.toggle('selected');
+        } 
+
 	const getPlayerOneAvatar = (() => {
 		let _avatars = Array.from(
 			document.querySelectorAll('.avatars-player-one')
 		);
 		_avatars.forEach((avatar) =>
 			avatar.addEventListener('click', (e) => {
+                toggleSelect(e);
 				_playerOne.character = e.target.src;
                 console.log(_playerOne);
 			})
@@ -32,6 +43,7 @@ const preGameMenu = (() => {
 		);
 		_weapons.forEach((weapon) =>
 			weapon.addEventListener('click', (e) => {
+                toggleSelect(e);
 				_playerOne.weapon = e.target.src;
                 console.log(_playerOne);
 			})
@@ -44,6 +56,7 @@ const preGameMenu = (() => {
 		);
 		_avatars.forEach((avatar) =>
 			avatar.addEventListener('click', (e) => {
+                toggleSelect(e);
 				_opponent.character = e.target.src;
                 console.log(_opponent);
 			})
@@ -56,6 +69,7 @@ const preGameMenu = (() => {
 		);
 		_weapons.forEach((weapon) =>
 			weapon.addEventListener('click', (e) => {
+                toggleSelect(e);
 				_opponent.weapon = e.target.src;
                 console.log(_opponent);
 			})
