@@ -22,7 +22,7 @@ const preGameMenu = (() => {
                 }
             });
             e.target.classList.toggle('selected');
-        } 
+    } 
 
 	const getPlayerOneAvatar = (() => {
 		let _avatars = Array.from(
@@ -32,7 +32,6 @@ const preGameMenu = (() => {
 			avatar.addEventListener('click', (e) => {
                 toggleSelect(e);
 				_playerOne.character = e.target.src;
-                console.log(_playerOne);
 			})
 		);
 	})();
@@ -45,7 +44,6 @@ const preGameMenu = (() => {
 			weapon.addEventListener('click', (e) => {
                 toggleSelect(e);
 				_playerOne.weapon = e.target.src;
-                console.log(_playerOne);
 			})
 		);
     })();
@@ -58,7 +56,6 @@ const preGameMenu = (() => {
 			avatar.addEventListener('click', (e) => {
                 toggleSelect(e);
 				_opponent.character = e.target.src;
-                console.log(_opponent);
 			})
 		);
     })();
@@ -71,12 +68,10 @@ const preGameMenu = (() => {
 			weapon.addEventListener('click', (e) => {
                 toggleSelect(e);
 				_opponent.weapon = e.target.src;
-                console.log(_opponent);
 			})
 		);
     })();
 
-	// player one object literal
 	const _playerOne = {
 		character: '',
 		weapon: '',
@@ -87,7 +82,6 @@ const preGameMenu = (() => {
         weapon: '',
     }
 
-	//clear display
 	const _clearDisplay = () => {
 		gameContainer.innerHTML = '';
 	};
@@ -98,7 +92,7 @@ const preGameMenu = (() => {
 		_boardContainer.classList.add('board-container');
 		for (let i = 1; i <= _newBoard.length; i++) {
 			let _idx = i;
-			let _boardCell = document.createElement('button');
+			let _boardCell = document.createElement('div');
 			_boardCell.classList.add('board-cells');
 			_boardCell.setAttribute('id', `cell-${i}`);
 			_boardCell.textContent = `${_idx}`;
@@ -165,9 +159,7 @@ const preGameMenu = (() => {
 		gameContainer.appendChild(_statContainer);
     }
 
-	const markBoard = (e) => {};
 
-	//change display to active game
 	const _changeDisplay = (e) => {
 		gameContainer.classList.toggle('new-game-menu');
 		gameContainer.classList.toggle('game-active');
@@ -180,6 +172,44 @@ const preGameMenu = (() => {
         _createPlayerTwoStats();
 		_changeDisplay();
 	};
+
+    const gameBoardState = {
+        currentTurn: _playerOne,
+
+        cellOneOn: false,
+        cellThreeOn: false,
+        cellFourOn: false,
+        cellFiveOn: false,
+        cellSixOn: false,
+        cellSevenOn: false,
+        cellEightOn: false,
+        cellNineOn: false,
+
+        winner: '',
+        loser: '',
+
+        gameOver: false,
+    }
+
+    const getCurrentTurn = () => {
+        let _currentPlayerWeapon;
+        if (gameBoardState.currentTurn === _playerOne) {
+            _currentPlayerWeapon = _playerOne.weapon;
+        } else if (gameBoardState.currentTurn === _opponent) {
+            _currentPlayerWeapon = _opponent.weapon;
+        }
+        return _currentPlayerWeapon;
+    }
+
+    const markBoard = (e) => {
+        console.log(e.target);
+        let _currentPlayerWeapon = getCurrentTurn();
+        let _weapon = document.createElement('img');
+        _weapon.classList.add('board-mark');
+        _weapon.src = _currentPlayerWeapon;
+        e.target.appendChild(_weapon);
+        console.log(_currentPlayerWeapon);
+    };
 
 	startGameBtn.addEventListener('click', startGame);
 
