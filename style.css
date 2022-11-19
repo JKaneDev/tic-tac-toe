@@ -109,7 +109,15 @@ body {
     padding: 1.5rem 1rem;
     background-color: var(--color-container);
     box-shadow: var(--button-color) 0px 2px 8px 0px;
+    border-bottom: .2rem solid var(--font-color-main);
+}
+
+.stat-container.player-one.active,
+.stat-container.player-two.active {
     border-bottom: .2rem solid var(--font-color-secondary);
+}
+
+.game-container.game-active img {
 }
 
 .board-container {
@@ -130,12 +138,15 @@ body {
     align-items: center;
     margin: 0;
     padding: 0;
+    cursor: pointer;
 }
 
 .weapon-img {
     height: 100%;
     width: 100%;
 }
+
+
 
 /* board cell styling */
 

@@ -97,7 +97,7 @@ const preGameMenu = (() => {
 		let _weapon = _playerOne.weapon;
 
 		let _statContainer = document.createElement('div');
-		_statContainer.classList.add('stat-container');
+		_statContainer.classList.add('stat-container', 'player-one');
 
 		let _characterBox = document.createElement('div');
 		let _characterImg = document.createElement('img');
@@ -125,7 +125,7 @@ const preGameMenu = (() => {
 		let _weapon = _opponent.weapon;
 
 		let _statContainer = document.createElement('div');
-		_statContainer.classList.add('stat-container');
+		_statContainer.classList.add('stat-container', 'player-two');
 
 		let _characterBox = document.createElement('div');
 		let _characterImg = document.createElement('img');
@@ -160,6 +160,7 @@ const preGameMenu = (() => {
 		_createBoard();
         _createPlayerTwoStats();
 		_changeDisplay();
+        _indicateTurn();
 	};
 
     const _playerOne = {
@@ -185,6 +186,20 @@ const preGameMenu = (() => {
         _gameBoardState.currentTurn = !_gameBoardState.currentTurn;
     }
 
+    const _indicateTurn = () => {
+        let p1Stats = document.querySelector('.stat-container.player-one');
+        let p2Stats = document.querySelector('.stat-container.player-two');
+
+        if (_gameBoardState.currentTurn === true) {
+            p1Stats.classList.add('active');
+            p2Stats.classList.remove('active');
+        }
+        else if (_gameBoardState.currentTurn === false) {
+            p2Stats.classList.add('active');
+            p1Stats.classList.remove('active');
+        }
+    }
+
     const _getCurrentTurn = () => {
         let _currentTurn;
         if (_gameBoardState.currentTurn === true) {
@@ -208,6 +223,7 @@ const preGameMenu = (() => {
         e.target.classList.add('marked');
         _weapon.classList.add('marked');
         _changeTurn();
+        _indicateTurn();
         console.log(_gameBoardState);
     };
 
