@@ -72,16 +72,6 @@ const preGameMenu = (() => {
 		);
     })();
 
-	const _playerOne = {
-		character: '',
-		weapon: '',
-	};
-
-    const _opponent = {
-        character: '',
-        weapon: '',
-    }
-
 	const _clearDisplay = () => {
 		gameContainer.innerHTML = '';
 	};
@@ -95,9 +85,8 @@ const preGameMenu = (() => {
 			let _boardCell = document.createElement('div');
 			_boardCell.classList.add('board-cells');
 			_boardCell.setAttribute('id', `cell-${i}`);
-			_boardCell.textContent = `${_idx}`;
 			_boardContainer.appendChild(_boardCell);
-			_boardCell.addEventListener('click', markBoard);
+			_boardCell.addEventListener('click', _markBoard);
 		}
 		gameContainer.appendChild(_boardContainer);
 	};
@@ -173,17 +162,18 @@ const preGameMenu = (() => {
 		_changeDisplay();
 	};
 
-    const gameBoardState = {
-        currentTurn: _playerOne,
+    const _playerOne = {
+		character: '',
+		weapon: '',
+	};
 
-        cellOneOn: false,
-        cellThreeOn: false,
-        cellFourOn: false,
-        cellFiveOn: false,
-        cellSixOn: false,
-        cellSevenOn: false,
-        cellEightOn: false,
-        cellNineOn: false,
+    const _opponent = {
+        character: '',
+        weapon: '',
+    }
+
+    const _gameBoardState = {
+        currentTurn: true,
 
         winner: '',
         loser: '',
@@ -191,24 +181,34 @@ const preGameMenu = (() => {
         gameOver: false,
     }
 
-    const getCurrentTurn = () => {
-        let _currentPlayerWeapon;
-        if (gameBoardState.currentTurn === _playerOne) {
-            _currentPlayerWeapon = _playerOne.weapon;
-        } else if (gameBoardState.currentTurn === _opponent) {
-            _currentPlayerWeapon = _opponent.weapon;
-        }
-        return _currentPlayerWeapon;
+    const _changeTurn = () => {
+        _gameBoardState.currentTurn = !_gameBoardState.currentTurn;
     }
 
-    const markBoard = (e) => {
-        console.log(e.target);
-        let _currentPlayerWeapon = getCurrentTurn();
+    const _getCurrentTurn = () => {
+        let _currentTurn;
+        if (_gameBoardState.currentTurn === true) {
+            _currentTurn = _playerOne.weapon;
+        } else if (_gameBoardState.currentTurn === false) {
+            _currentTurn = _opponent.weapon;
+        }
+        return _currentTurn;
+    }
+
+
+    const _markBoard = (e) => {
+        let _currentTurn = _getCurrentTurn();
+        if (e.target.classList.contains('marked')) {
+            return;
+        }
+
         let _weapon = document.createElement('img');
-        _weapon.classList.add('board-mark');
-        _weapon.src = _currentPlayerWeapon;
+        _weapon.src = _currentTurn;
         e.target.appendChild(_weapon);
-        console.log(_currentPlayerWeapon);
+        e.target.classList.add('marked');
+        _weapon.classList.add('marked');
+        _changeTurn();
+        console.log(_gameBoardState);
     };
 
 	startGameBtn.addEventListener('click', startGame);
