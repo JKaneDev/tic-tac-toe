@@ -174,7 +174,7 @@ const preGameMenu = (() => {
 		winner: '',
 		loser: '',
 
-        winningCombinations: [
+		winningCombinations: [
 			[1, 2, 3],
 			[1, 4, 7],
 			[1, 5, 9],
@@ -215,7 +215,7 @@ const preGameMenu = (() => {
 		return _currentMark;
 	};
 
-	const _getCurrentTurn = () => {
+	const _getCurrentController = () => {
 		let _currentTurn;
 		if (_gameBoardState.currentTurn === true) {
 			_currentTurn = _playerOne;
@@ -227,7 +227,7 @@ const preGameMenu = (() => {
 
 	const _markBoard = (e) => {
 		let _currentMark = _getCurrentMark();
-		let _currentTurn = _getCurrentTurn();
+		let _currentTurn = _getCurrentController();
 
 		if (e.target.classList.contains('marked')) {
 			return;
@@ -241,40 +241,58 @@ const preGameMenu = (() => {
 		e.target.classList.add('marked');
 		_weapon.classList.add('marked');
 
-        _checkForWinner(_playerOne.cellsMarked, _opponent.cellsMarked);
+		if (_checkForWinningCombo()) {
+			_endGame();
+        }
+
 		_changeTurn();
 		_indicateTurn();
 		console.log(_gameBoardState);
-		console.log(_playerOne.cellsMarked);
-		console.log(_opponent.cellsMarked);
 	};
 
-    const compareArrays = (a, b) => {
-        return JSON.stringify(a) === JSON.stringify(b);
-    }
 
-    const _playerOneWins = () => {
-        _gameBoardState.winner = '_playerOne';
-        _gameBoardState.loser = '_opponent';
-    }
+	const _checkForWinningCombo = () => {
+		let _p1Cells = _playerOne.cellsMarked;
+		let _opponentCells = _opponent.cellsMarked;
+		let _winningCombos = _gameBoardState.winningCombinations;
 
-    const _opponentWins = () => {
-        _gameBoardState.winner = '_opponent';
-        _gameBoardState.loser = '_playerOne';
-    }
-
-	const _checkForWinner = (playerOneMarkedCells, opponentMarkedCells) => {
-        let _p1Combos = playerOneMarkedCells;
-        let _opponentCombos = opponentMarkedCells;
-        let winningCombos = _gameBoardState.winningCombinations;
-        for (let i = 0; i < winningCombos.length; i++) {
-            if (_p1Combos.every(combo => winningCombos[i].includes(combo))) {
-               
-            } else if (_opponentCombos.every(combo => winningCombos[i].includes(combo))) {
-                
+        //Compare cells marked by each player against all winning combinations
+		for (let i = 0; i < _winningCombos.length; i++) {
+            let win = _winningCombos[i];
+			let _playerOneWins = win.every((cell) => _p1Cells.includes(cell)); 
+			let _opponentWins =  win.every((cell) => _opponentCells.includes(cell));
+        
+            if (_playerOneWins) {
+                _gameBoardState.winner = 'Player One';
+                _gameBoardState.loser = 'Opponent';
+                return true;
             }
-        }
+            if (_opponentWins) {
+                _gameBoardState.winner = 'Opponent';
+                _gameBoardState.loser = 'Player One';
+                return true;
+            }
+		}
+        return false
 	};
+
+    const _lockBoard = () => {
+        
+    }
+
+	const _endGame = () => {
+		let _boardCells = Array.from(document.querySelector('.board-cells'));
+        _boardCells.forEach(cell => cell.classList.add('marked'));
+        _gameBoardState.gameOver = true;
+        _returnWinner();
+	};
+
+
+    const _returnWinner = () => {
+        if (_gameBoardState.gameOver === true){
+            return _gameBoardState.winner;
+        }
+    }
 
 	startGameBtn.addEventListener('click', startGame);
 
