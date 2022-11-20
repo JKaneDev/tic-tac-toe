@@ -13,64 +13,55 @@ const gun = document.querySelector('.gun');
 const restartGameBtn = document.querySelector('#restart');
 
 const preGameMenu = (() => {
-
-    const toggleSelect = (e) => {
-        let otherSelections = Array.from(e.target.parentNode.children);
-        otherSelections.forEach(selection => {
-                if (selection.classList.contains('selected')) {
-                    selection.classList.remove('selected');
-                }
-            });
-            e.target.classList.toggle('selected');
-    } 
+	const toggleSelect = (e) => {
+		let otherSelections = Array.from(e.target.parentNode.children);
+		otherSelections.forEach((selection) => {
+			if (selection.classList.contains('selected')) {
+				selection.classList.remove('selected');
+			}
+		});
+		e.target.classList.toggle('selected');
+	};
 
 	const getPlayerOneAvatar = (() => {
-		let _avatars = Array.from(
-			document.querySelectorAll('.avatars-player-one')
-		);
+		let _avatars = Array.from(document.querySelectorAll('.avatars-player-one'));
 		_avatars.forEach((avatar) =>
 			avatar.addEventListener('click', (e) => {
-                toggleSelect(e);
+				toggleSelect(e);
 				_playerOne.character = e.target.src;
 			})
 		);
 	})();
 
-    const getPlayerOneWeapon = (() => {
-        let _weapons = Array.from(
-			document.querySelectorAll('.weapons-player-one')
-		);
+	const getPlayerOneWeapon = (() => {
+		let _weapons = Array.from(document.querySelectorAll('.weapons-player-one'));
 		_weapons.forEach((weapon) =>
 			weapon.addEventListener('click', (e) => {
-                toggleSelect(e);
+				toggleSelect(e);
 				_playerOne.weapon = e.target.src;
 			})
 		);
-    })();
+	})();
 
-    const getOpponentAvatar = (() => {
-        let _avatars = Array.from(
-			document.querySelectorAll('.avatars-opponent')
-		);
+	const getOpponentAvatar = (() => {
+		let _avatars = Array.from(document.querySelectorAll('.avatars-opponent'));
 		_avatars.forEach((avatar) =>
 			avatar.addEventListener('click', (e) => {
-                toggleSelect(e);
+				toggleSelect(e);
 				_opponent.character = e.target.src;
 			})
 		);
-    })();
+	})();
 
-    const getOpponentWeapon = (() => {
-        let _weapons = Array.from(
-			document.querySelectorAll('.weapons-opponent')
-		);
+	const getOpponentWeapon = (() => {
+		let _weapons = Array.from(document.querySelectorAll('.weapons-opponent'));
 		_weapons.forEach((weapon) =>
 			weapon.addEventListener('click', (e) => {
-                toggleSelect(e);
+				toggleSelect(e);
 				_opponent.weapon = e.target.src;
 			})
 		);
-    })();
+	})();
 
 	const _clearDisplay = () => {
 		gameContainer.innerHTML = '';
@@ -93,7 +84,7 @@ const preGameMenu = (() => {
 
 	const _createPlayerOneStats = () => {
 		//get src for character and weapon imgs
-        let _character = _playerOne.character;
+		let _character = _playerOne.character;
 		let _weapon = _playerOne.weapon;
 
 		let _statContainer = document.createElement('div');
@@ -111,7 +102,7 @@ const preGameMenu = (() => {
 
 		let _resultSpan = document.createElement('span');
 		_resultSpan.classList.add('result-span');
-        _resultSpan.innerText = "Result";
+		_resultSpan.innerText = 'Result';
 
 		_statContainer.appendChild(_characterBox);
 		_statContainer.appendChild(_weaponBox);
@@ -120,8 +111,8 @@ const preGameMenu = (() => {
 		gameContainer.appendChild(_statContainer);
 	};
 
-    const _createPlayerTwoStats = () => {
-        let _character = _opponent.character;
+	const _createPlayerTwoStats = () => {
+		let _character = _opponent.character;
 		let _weapon = _opponent.weapon;
 
 		let _statContainer = document.createElement('div');
@@ -139,15 +130,14 @@ const preGameMenu = (() => {
 
 		let _resultSpan = document.createElement('span');
 		_resultSpan.classList.add('result-span');
-        _resultSpan.innerText = "Result";
+		_resultSpan.innerText = 'Result';
 
 		_statContainer.appendChild(_characterBox);
 		_statContainer.appendChild(_weaponBox);
 		_statContainer.appendChild(_resultSpan);
 
 		gameContainer.appendChild(_statContainer);
-    }
-
+	};
 
 	const _changeDisplay = (e) => {
 		gameContainer.classList.toggle('new-game-menu');
@@ -158,74 +148,133 @@ const preGameMenu = (() => {
 		_clearDisplay();
 		_createPlayerOneStats();
 		_createBoard();
-        _createPlayerTwoStats();
+		_createPlayerTwoStats();
 		_changeDisplay();
-        _indicateTurn();
+		_indicateTurn();
 	};
 
-    const _playerOne = {
+	const _playerOne = {
 		character: '',
 		weapon: '',
+
+		cellsMarked: [],
 	};
 
-    const _opponent = {
-        character: '',
-        weapon: '',
+	const _opponent = {
+		character: '',
+		weapon: '',
+
+		cellsMarked: [],
+	};
+
+	const _gameBoardState = {
+		// true = _playerOne, false = _opponent
+		currentTurn: true,
+
+		winner: '',
+		loser: '',
+
+        winningCombinations: [
+			[1, 2, 3],
+			[1, 4, 7],
+			[1, 5, 9],
+			[4, 5, 6],
+			[7, 8, 9],
+			[2, 5, 8],
+			[3, 6, 9],
+			[3, 5, 7],
+		],
+
+		gameOver: false,
+	};
+
+	const _changeTurn = () => {
+		_gameBoardState.currentTurn = !_gameBoardState.currentTurn;
+	};
+
+	const _indicateTurn = () => {
+		let p1Stats = document.querySelector('.stat-container.player-one');
+		let p2Stats = document.querySelector('.stat-container.player-two');
+
+		if (_gameBoardState.currentTurn === true) {
+			p1Stats.classList.add('active');
+			p2Stats.classList.remove('active');
+		} else if (_gameBoardState.currentTurn === false) {
+			p2Stats.classList.add('active');
+			p1Stats.classList.remove('active');
+		}
+	};
+
+	const _getCurrentMark = () => {
+		let _currentMark;
+		if (_gameBoardState.currentTurn === true) {
+			_currentMark = _playerOne.weapon;
+		} else if (_gameBoardState.currentTurn === false) {
+			_currentMark = _opponent.weapon;
+		}
+		return _currentMark;
+	};
+
+	const _getCurrentTurn = () => {
+		let _currentTurn;
+		if (_gameBoardState.currentTurn === true) {
+			_currentTurn = _playerOne;
+		} else if (_gameBoardState.currentTurn === false) {
+			_currentTurn = _opponent;
+		}
+		return _currentTurn;
+	};
+
+	const _markBoard = (e) => {
+		let _currentMark = _getCurrentMark();
+		let _currentTurn = _getCurrentTurn();
+
+		if (e.target.classList.contains('marked')) {
+			return;
+		}
+
+		let _weapon = document.createElement('img');
+		_weapon.src = _currentMark;
+		_currentTurn.cellsMarked.push(parseInt(e.target.id.replace('cell-', '')));
+		e.target.appendChild(_weapon);
+
+		e.target.classList.add('marked');
+		_weapon.classList.add('marked');
+
+        _checkForWinner(_playerOne.cellsMarked, _opponent.cellsMarked);
+		_changeTurn();
+		_indicateTurn();
+		console.log(_gameBoardState);
+		console.log(_playerOne.cellsMarked);
+		console.log(_opponent.cellsMarked);
+	};
+
+    const compareArrays = (a, b) => {
+        return JSON.stringify(a) === JSON.stringify(b);
     }
 
-    const _gameBoardState = {
-        currentTurn: true,
-
-        winner: '',
-        loser: '',
-
-        gameOver: false,
+    const _playerOneWins = () => {
+        _gameBoardState.winner = '_playerOne';
+        _gameBoardState.loser = '_opponent';
     }
 
-    const _changeTurn = () => {
-        _gameBoardState.currentTurn = !_gameBoardState.currentTurn;
+    const _opponentWins = () => {
+        _gameBoardState.winner = '_opponent';
+        _gameBoardState.loser = '_playerOne';
     }
 
-    const _indicateTurn = () => {
-        let p1Stats = document.querySelector('.stat-container.player-one');
-        let p2Stats = document.querySelector('.stat-container.player-two');
-
-        if (_gameBoardState.currentTurn === true) {
-            p1Stats.classList.add('active');
-            p2Stats.classList.remove('active');
+	const _checkForWinner = (playerOneMarkedCells, opponentMarkedCells) => {
+        let _p1Combos = playerOneMarkedCells;
+        let _opponentCombos = opponentMarkedCells;
+        let winningCombos = _gameBoardState.winningCombinations;
+        for (let i = 0; i < winningCombos.length; i++) {
+            if (_p1Combos.every(combo => winningCombos[i].includes(combo))) {
+               
+            } else if (_opponentCombos.every(combo => winningCombos[i].includes(combo))) {
+                
+            }
         }
-        else if (_gameBoardState.currentTurn === false) {
-            p2Stats.classList.add('active');
-            p1Stats.classList.remove('active');
-        }
-    }
-
-    const _getCurrentTurn = () => {
-        let _currentTurn;
-        if (_gameBoardState.currentTurn === true) {
-            _currentTurn = _playerOne.weapon;
-        } else if (_gameBoardState.currentTurn === false) {
-            _currentTurn = _opponent.weapon;
-        }
-        return _currentTurn;
-    }
-
-
-    const _markBoard = (e) => {
-        let _currentTurn = _getCurrentTurn();
-        if (e.target.classList.contains('marked')) {
-            return;
-        }
-
-        let _weapon = document.createElement('img');
-        _weapon.src = _currentTurn;
-        e.target.appendChild(_weapon);
-        e.target.classList.add('marked');
-        _weapon.classList.add('marked');
-        _changeTurn();
-        _indicateTurn();
-        console.log(_gameBoardState);
-    };
+	};
 
 	startGameBtn.addEventListener('click', startGame);
 
