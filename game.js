@@ -2,24 +2,22 @@ const container = document.querySelector('.container');
 const gameContainer = document.querySelector('.game-container');
 const enemyToggleBtn = document.querySelector('.player-two-button');
 const startGameBtn = document.querySelector('#start-game');
-const restartGameBtn = document.querySelector('#restart');
 
 const preGameMenu = (() => {
-	const toggleSelect = (e) => {
-		let otherSelections = Array.from(e.target.parentNode.children);
-		otherSelections.forEach((selection) => {
-			if (selection.classList.contains('selected')) {
-				selection.classList.remove('selected');
-			}
-		});
-		e.target.classList.toggle('selected');
-	};
+	
+    const _preGameMenuState = {
+        p1CharacterChosen: false,
+        p1WeaponChosen: false,
+        oppCharacterChosen: false,
+        oppWeaponChosen: false,
+    }
 
 	const getPlayerOneAvatar = (() => {
 		let _avatars = Array.from(document.querySelectorAll('.avatars-player-one'));
 		_avatars.forEach((avatar) =>
 			avatar.addEventListener('click', (e) => {
 				toggleSelect(e);
+                _preGameMenuState.p1CharacterChosen = true;
 				_playerOne.character = e.target.src;
 			})
 		);
@@ -30,6 +28,7 @@ const preGameMenu = (() => {
 		_weapons.forEach((weapon) =>
 			weapon.addEventListener('click', (e) => {
 				toggleSelect(e);
+                _preGameMenuState.p1WeaponChosen = true;
 				_playerOne.weapon = e.target.src;
 			})
 		);
@@ -40,6 +39,7 @@ const preGameMenu = (() => {
 		_avatars.forEach((avatar) =>
 			avatar.addEventListener('click', (e) => {
 				toggleSelect(e);
+                _preGameMenuState.oppCharacterChosen = true;
 				_opponent.character = e.target.src;
 			})
 		);
@@ -50,10 +50,33 @@ const preGameMenu = (() => {
 		_weapons.forEach((weapon) =>
 			weapon.addEventListener('click', (e) => {
 				toggleSelect(e);
+                _preGameMenuState.oppWeaponChosen = true;
 				_opponent.weapon = e.target.src;
 			})
 		);
 	})();
+
+    const toggleSelect = (e) => {
+		let otherSelections = Array.from(e.target.parentNode.children);
+		otherSelections.forEach((selection) => {
+			if (selection.classList.contains('selected')) {
+				selection.classList.remove('selected');
+			}
+		});
+		e.target.classList.toggle('selected');
+	};
+
+    const checkGameReady = () => {
+        if (
+            _preGameMenuState.p1CharacterChosen === true &&
+            _preGameMenuState.p1WeaponChosen === true &&
+            _preGameMenuState.oppCharacterChosen === true &&
+            _preGameMenuState.oppWeaponChosen === true
+        ) {
+            return true;
+        }
+        return false;
+    }
 
 	const _clearDisplay = () => {
 		gameContainer.innerHTML = '';
@@ -160,6 +183,9 @@ const preGameMenu = (() => {
 	};
 
 	const startGame = () => {
+
+        if (checkGameReady()) {
+
 		_clearDisplay();
 		_createPlayerOneStats();
 		_createBoard();
@@ -167,6 +193,11 @@ const preGameMenu = (() => {
         _createActiveGameButtons();
 		_changeDisplay();
 		_indicateTurn();
+
+        } else {
+            alert('Please Select A Character And Weapon For Each Player');
+            return;
+        }
 	};
 
 	const _playerOne = {
@@ -266,7 +297,6 @@ const preGameMenu = (() => {
 		console.log(_gameBoardState);
 	};
 
-
 	const _checkForWinningCombo = () => {
 		let _p1Cells = _playerOne.cellsMarked;
 		let _opponentCells = _opponent.cellsMarked;
@@ -292,14 +322,14 @@ const preGameMenu = (() => {
         return false
 	};
 
-
 	const _endGame = () => {
 		let _boardCells = Array.from(document.querySelectorAll('.board-cells'));
+        let _boardContainer = document.querySelector('.board-container');
         _boardCells.forEach(cell => cell.classList.add('marked'));
         _gameBoardState.gameOver = true;
+        _boardContainer.style.webkitFilter = 'brightness(30%)';
         _returnWinner();
 	};
-
 
     const _returnWinner = () => {
         let p1ResultDisplay = document.querySelector('.result-span.player-one');
