@@ -2,14 +2,6 @@ const container = document.querySelector('.container');
 const gameContainer = document.querySelector('.game-container');
 const enemyToggleBtn = document.querySelector('.player-two-button');
 const startGameBtn = document.querySelector('#start-game');
-const characterOne = document.querySelector('.avatar-one');
-const characterTwo = document.querySelector('.avatar-two');
-const characterThree = document.querySelector('.avatar-three');
-const characterFour = document.querySelector('.avatar-four');
-const crossbow = document.querySelector('.crossbow');
-const sword = document.querySelector('.sword');
-const sabres = document.querySelector('.sabres');
-const gun = document.querySelector('.gun');
 const restartGameBtn = document.querySelector('#restart');
 
 const preGameMenu = (() => {
@@ -82,6 +74,31 @@ const preGameMenu = (() => {
 		gameContainer.appendChild(_boardContainer);
 	};
 
+    const _createActiveGameButtons = () => {
+
+        const btnContainer = document.createElement('div');
+        btnContainer.classList.add('game-button-container');
+
+        const restartRoundBtn = document.createElement('button');
+        restartRoundBtn.classList.add('active-game-buttons', 'restart-round');
+        restartRoundBtn.innerText = 'Restart Round';
+        btnContainer.appendChild(restartRoundBtn);
+
+        restartRoundBtn.addEventListener('click', () => {
+
+        });
+
+        const newGameBtn = document.createElement('button');
+        newGameBtn.classList.add('active-game-buttons', 'new-game');
+        newGameBtn.innerText = 'New Game';
+        btnContainer.appendChild(newGameBtn);
+        newGameBtn.addEventListener('click', () => {
+            location.reload();
+        });
+
+        container.appendChild(btnContainer);
+    }
+
 	const _createPlayerOneStats = () => {
 		//get src for character and weapon imgs
 		let _character = _playerOne.character;
@@ -101,8 +118,7 @@ const preGameMenu = (() => {
 		_weaponBox.appendChild(_weaponImg);
 
 		let _resultSpan = document.createElement('span');
-		_resultSpan.classList.add('result-span');
-		_resultSpan.innerText = 'Result';
+		_resultSpan.classList.add('result-span', 'player-one');
 
 		_statContainer.appendChild(_characterBox);
 		_statContainer.appendChild(_weaponBox);
@@ -129,8 +145,7 @@ const preGameMenu = (() => {
 		_weaponBox.appendChild(_weaponImg);
 
 		let _resultSpan = document.createElement('span');
-		_resultSpan.classList.add('result-span');
-		_resultSpan.innerText = 'Result';
+		_resultSpan.classList.add('result-span', 'player-two');
 
 		_statContainer.appendChild(_characterBox);
 		_statContainer.appendChild(_weaponBox);
@@ -149,6 +164,7 @@ const preGameMenu = (() => {
 		_createPlayerOneStats();
 		_createBoard();
 		_createPlayerTwoStats();
+        _createActiveGameButtons();
 		_changeDisplay();
 		_indicateTurn();
 	};
@@ -276,12 +292,9 @@ const preGameMenu = (() => {
         return false
 	};
 
-    const _lockBoard = () => {
-        
-    }
 
 	const _endGame = () => {
-		let _boardCells = Array.from(document.querySelector('.board-cells'));
+		let _boardCells = Array.from(document.querySelectorAll('.board-cells'));
         _boardCells.forEach(cell => cell.classList.add('marked'));
         _gameBoardState.gameOver = true;
         _returnWinner();
@@ -289,8 +302,26 @@ const preGameMenu = (() => {
 
 
     const _returnWinner = () => {
+        let p1ResultDisplay = document.querySelector('.result-span.player-one');
+        let p1StatContainer = document.querySelector('.stat-container.player-one');
+        let oppResultDisplay = document.querySelector('.result-span.player-two');
+        let oppStatContainer = document.querySelector('.stat-container.player-two');
+        
         if (_gameBoardState.gameOver === true){
-            return _gameBoardState.winner;
+            
+            if (_gameBoardState.winner == 'Player One') {
+                p1ResultDisplay.innerText = 'Winner!';
+                oppResultDisplay.innerText = 'Loser!';
+                p1StatContainer.style.borderBottom = '.2rem solid var(--font-color-secondary)';
+                oppStatContainer.style.borderBottom = '.2rem solid var(--font-color-main)';
+            }
+            else if (_gameBoardState.winner == 'Opponent') {
+                oppResultDisplay.innerText = 'Winner!';
+                p1ResultDisplay.innerText = 'Loser!';
+                oppStatContainer.style.borderBottom = '.2rem solid var(--font-color-secondary)';
+                p1StatContainer.style.borderBottom = '.2rem solid var(--font-color-main)';
+            }
+
         }
     }
 
