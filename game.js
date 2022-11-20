@@ -4,20 +4,19 @@ const enemyToggleBtn = document.querySelector('.player-two-button');
 const startGameBtn = document.querySelector('#start-game');
 
 const preGameMenu = (() => {
-	
-    const _preGameMenuState = {
-        p1CharacterChosen: false,
-        p1WeaponChosen: false,
-        oppCharacterChosen: false,
-        oppWeaponChosen: false,
-    }
+	const _preGameMenuState = {
+		p1CharacterChosen: false,
+		p1WeaponChosen: false,
+		oppCharacterChosen: false,
+		oppWeaponChosen: false,
+	};
 
 	const getPlayerOneAvatar = (() => {
 		let _avatars = Array.from(document.querySelectorAll('.avatars-player-one'));
 		_avatars.forEach((avatar) =>
 			avatar.addEventListener('click', (e) => {
 				toggleSelect(e);
-                _preGameMenuState.p1CharacterChosen = true;
+				_preGameMenuState.p1CharacterChosen = true;
 				_playerOne.character = e.target.src;
 			})
 		);
@@ -28,7 +27,7 @@ const preGameMenu = (() => {
 		_weapons.forEach((weapon) =>
 			weapon.addEventListener('click', (e) => {
 				toggleSelect(e);
-                _preGameMenuState.p1WeaponChosen = true;
+				_preGameMenuState.p1WeaponChosen = true;
 				_playerOne.weapon = e.target.src;
 			})
 		);
@@ -39,7 +38,7 @@ const preGameMenu = (() => {
 		_avatars.forEach((avatar) =>
 			avatar.addEventListener('click', (e) => {
 				toggleSelect(e);
-                _preGameMenuState.oppCharacterChosen = true;
+				_preGameMenuState.oppCharacterChosen = true;
 				_opponent.character = e.target.src;
 			})
 		);
@@ -50,13 +49,13 @@ const preGameMenu = (() => {
 		_weapons.forEach((weapon) =>
 			weapon.addEventListener('click', (e) => {
 				toggleSelect(e);
-                _preGameMenuState.oppWeaponChosen = true;
+				_preGameMenuState.oppWeaponChosen = true;
 				_opponent.weapon = e.target.src;
 			})
 		);
 	})();
 
-    const toggleSelect = (e) => {
+	const toggleSelect = (e) => {
 		let otherSelections = Array.from(e.target.parentNode.children);
 		otherSelections.forEach((selection) => {
 			if (selection.classList.contains('selected')) {
@@ -66,17 +65,17 @@ const preGameMenu = (() => {
 		e.target.classList.toggle('selected');
 	};
 
-    const checkGameReady = () => {
-        if (
-            _preGameMenuState.p1CharacterChosen === true &&
-            _preGameMenuState.p1WeaponChosen === true &&
-            _preGameMenuState.oppCharacterChosen === true &&
-            _preGameMenuState.oppWeaponChosen === true
-        ) {
-            return true;
-        }
-        return false;
-    }
+	const checkGameReady = () => {
+		if (
+			_preGameMenuState.p1CharacterChosen === true &&
+			_preGameMenuState.p1WeaponChosen === true &&
+			_preGameMenuState.oppCharacterChosen === true &&
+			_preGameMenuState.oppWeaponChosen === true
+		) {
+			return true;
+		}
+		return false;
+	};
 
 	const _clearDisplay = () => {
 		gameContainer.innerHTML = '';
@@ -97,30 +96,27 @@ const preGameMenu = (() => {
 		gameContainer.appendChild(_boardContainer);
 	};
 
-    const _createActiveGameButtons = () => {
+	const _createActiveGameButtons = () => {
+		const btnContainer = document.createElement('div');
+		btnContainer.classList.add('game-button-container');
 
-        const btnContainer = document.createElement('div');
-        btnContainer.classList.add('game-button-container');
+		const restartRoundBtn = document.createElement('button');
+		restartRoundBtn.classList.add('active-game-buttons', 'restart-round');
+		restartRoundBtn.innerText = 'Restart Round';
+		btnContainer.appendChild(restartRoundBtn);
 
-        const restartRoundBtn = document.createElement('button');
-        restartRoundBtn.classList.add('active-game-buttons', 'restart-round');
-        restartRoundBtn.innerText = 'Restart Round';
-        btnContainer.appendChild(restartRoundBtn);
+		restartRoundBtn.addEventListener('click', () => {});
 
-        restartRoundBtn.addEventListener('click', () => {
+		const newGameBtn = document.createElement('button');
+		newGameBtn.classList.add('active-game-buttons', 'new-game');
+		newGameBtn.innerText = 'New Game';
+		btnContainer.appendChild(newGameBtn);
+		newGameBtn.addEventListener('click', () => {
+			location.reload();
+		});
 
-        });
-
-        const newGameBtn = document.createElement('button');
-        newGameBtn.classList.add('active-game-buttons', 'new-game');
-        newGameBtn.innerText = 'New Game';
-        btnContainer.appendChild(newGameBtn);
-        newGameBtn.addEventListener('click', () => {
-            location.reload();
-        });
-
-        container.appendChild(btnContainer);
-    }
+		container.appendChild(btnContainer);
+	};
 
 	const _createPlayerOneStats = () => {
 		//get src for character and weapon imgs
@@ -183,21 +179,19 @@ const preGameMenu = (() => {
 	};
 
 	const startGame = () => {
-
-        if (checkGameReady()) {
-
-		_clearDisplay();
-		_createPlayerOneStats();
-		_createBoard();
-		_createPlayerTwoStats();
-        _createActiveGameButtons();
-		_changeDisplay();
-		_indicateTurn();
-
-        } else {
-            alert('Please Select A Character And Weapon For Each Player');
-            return;
-        }
+		if (checkGameReady()) {
+			_clearDisplay();
+			_createPlayerOneStats();
+			_createBoard();
+			_createPlayerTwoStats();
+			_createActiveGameButtons();
+			_addRestartListener();
+			_changeDisplay();
+			_indicateTurn();
+		} else {
+			alert('Please Select A Character And Weapon For Each Player');
+			return;
+		}
 	};
 
 	const _playerOne = {
@@ -290,7 +284,7 @@ const preGameMenu = (() => {
 
 		if (_checkForWinningCombo()) {
 			_endGame();
-        }
+		}
 
 		_changeTurn();
 		_indicateTurn();
@@ -302,58 +296,80 @@ const preGameMenu = (() => {
 		let _opponentCells = _opponent.cellsMarked;
 		let _winningCombos = _gameBoardState.winningCombinations;
 
-        //Compare cells marked by each player against all winning combinations
+		//Compare cells marked by each player against all winning combinations
 		for (let i = 0; i < _winningCombos.length; i++) {
-            let win = _winningCombos[i];
-			let _playerOneWins = win.every((cell) => _p1Cells.includes(cell)); 
-			let _opponentWins =  win.every((cell) => _opponentCells.includes(cell));
-        
-            if (_playerOneWins) {
-                _gameBoardState.winner = 'Player One';
-                _gameBoardState.loser = 'Opponent';
-                return true;
-            }
-            if (_opponentWins) {
-                _gameBoardState.winner = 'Opponent';
-                _gameBoardState.loser = 'Player One';
-                return true;
-            }
+			let win = _winningCombos[i];
+			let _playerOneWins = win.every((cell) => _p1Cells.includes(cell));
+			let _opponentWins = win.every((cell) => _opponentCells.includes(cell));
+
+			if (_playerOneWins) {
+				_gameBoardState.winner = 'Player One';
+				_gameBoardState.loser = 'Opponent';
+				return true;
+			}
+			if (_opponentWins) {
+				_gameBoardState.winner = 'Opponent';
+				_gameBoardState.loser = 'Player One';
+				return true;
+			}
 		}
-        return false
+		return false;
 	};
 
 	const _endGame = () => {
 		let _boardCells = Array.from(document.querySelectorAll('.board-cells'));
-        let _boardContainer = document.querySelector('.board-container');
-        _boardCells.forEach(cell => cell.classList.add('marked'));
-        _gameBoardState.gameOver = true;
-        _boardContainer.style.webkitFilter = 'brightness(30%)';
-        _returnWinner();
+		let _boardContainer = document.querySelector('.board-container');
+		_boardCells.forEach((cell) => cell.classList.add('marked'));
+		_gameBoardState.gameOver = true;
+		_boardContainer.style.webkitFilter = 'brightness(30%)';
+		_returnWinner();
 	};
 
-    const _returnWinner = () => {
-        let p1ResultDisplay = document.querySelector('.result-span.player-one');
-        let p1StatContainer = document.querySelector('.stat-container.player-one');
-        let oppResultDisplay = document.querySelector('.result-span.player-two');
-        let oppStatContainer = document.querySelector('.stat-container.player-two');
-        
-        if (_gameBoardState.gameOver === true){
-            
-            if (_gameBoardState.winner == 'Player One') {
-                p1ResultDisplay.innerText = 'Winner!';
-                oppResultDisplay.innerText = 'Loser!';
-                p1StatContainer.style.borderBottom = '.2rem solid var(--font-color-secondary)';
-                oppStatContainer.style.borderBottom = '.2rem solid var(--font-color-main)';
-            }
-            else if (_gameBoardState.winner == 'Opponent') {
-                oppResultDisplay.innerText = 'Winner!';
-                p1ResultDisplay.innerText = 'Loser!';
-                oppStatContainer.style.borderBottom = '.2rem solid var(--font-color-secondary)';
-                p1StatContainer.style.borderBottom = '.2rem solid var(--font-color-main)';
-            }
+	const _returnWinner = () => {
+		let p1ResultDisplay = document.querySelector('.result-span.player-one');
+		let p1StatContainer = document.querySelector('.stat-container.player-one');
+		let oppResultDisplay = document.querySelector('.result-span.player-two');
+		let oppStatContainer = document.querySelector('.stat-container.player-two');
 
-        }
+		if (_gameBoardState.gameOver === true) {
+			if (_gameBoardState.winner == 'Player One') {
+				p1ResultDisplay.innerText = 'Winner!';
+				oppResultDisplay.innerText = 'Loser!';
+				p1StatContainer.style.borderBottom =
+					'.2rem solid var(--font-color-secondary)';
+				oppStatContainer.style.borderBottom =
+					'.2rem solid var(--font-color-main)';
+			} else if (_gameBoardState.winner == 'Opponent') {
+				oppResultDisplay.innerText = 'Winner!';
+				p1ResultDisplay.innerText = 'Loser!';
+				oppStatContainer.style.borderBottom =
+					'.2rem solid var(--font-color-secondary)';
+				p1StatContainer.style.borderBottom =
+					'.2rem solid var(--font-color-main)';
+			}
+		}
+	};
+
+	const _addRestartListener = () => {
+		let _restartRoundBtn = document.querySelector('.restart-round');
+		_restartRoundBtn.addEventListener('click', _restartRound);
+	};
+
+    const _resetPlayerProgress = () => {
+        let _boardCells = Array.from(document.querySelectorAll('.board-cells'));
+        _boardCells.forEach(cell => cell.classList.remove('marked'));
+        _playerOne.cellsMarked = [];
+        _opponent.cellsMarked = [];
     }
+
+	const _restartRound = (e) => {
+		_clearDisplay();
+        _createPlayerOneStats();
+        _createBoard();
+        _createPlayerTwoStats();
+        _resetPlayerProgress();
+        _indicateTurn();
+	};
 
 	startGameBtn.addEventListener('click', startGame);
 
