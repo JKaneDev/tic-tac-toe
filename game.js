@@ -215,6 +215,9 @@ const preGameMenu = (() => {
 		winner: '',
 		loser: '',
 
+        moveCount: 0,
+        tieGame: false,
+        
 		winningCombinations: [
 			[1, 2, 3],
 			[1, 4, 7],
@@ -278,11 +281,12 @@ const preGameMenu = (() => {
 		_weapon.src = _currentMark;
 		_currentTurn.cellsMarked.push(parseInt(e.target.id.replace('cell-', '')));
 		e.target.appendChild(_weapon);
+        _gameBoardState.moveCount++;
 
 		e.target.classList.add('marked');
 		_weapon.classList.add('marked');
 
-		if (_checkForWinningCombo()) {
+		if (_checkForWinningCombo() || _checkForTie()) {
 			_endGame();
 		}
 
@@ -290,6 +294,14 @@ const preGameMenu = (() => {
 		_indicateTurn();
 		console.log(_gameBoardState);
 	};
+
+    const _checkForTie = () => {
+        if (_gameBoardState.moveCount == 9) {
+            _gameBoardState.tieGame = true;
+            return true;
+        }
+        return false;
+    }
 
 	const _checkForWinningCombo = () => {
 		let _p1Cells = _playerOne.cellsMarked;
@@ -346,7 +358,14 @@ const preGameMenu = (() => {
 					'.2rem solid var(--font-color-secondary)';
 				p1StatContainer.style.borderBottom =
 					'.2rem solid var(--font-color-main)';
-			}
+			} else if (_gameBoardState.tieGame === true) {
+                p1ResultDisplay.innerText = 'Tie!';
+				oppResultDisplay.innerText = 'Tie!';
+				p1StatContainer.style.borderBottom =
+					'.2rem solid var(--font-color-secondary)';
+				oppStatContainer.style.borderBottom =
+					'.2rem solid var(--font-color-secondary)';
+            }
 		}
 	};
 
@@ -370,6 +389,12 @@ const preGameMenu = (() => {
         _resetPlayerProgress();
         _indicateTurn();
 	};
+
+    // implement _checkForTie()
+    // change weapon color for opponent during active game
+    // break up code into 2 separate modules:
+        // pre game menu
+        // active game
 
 	startGameBtn.addEventListener('click', startGame);
 
