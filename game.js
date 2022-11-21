@@ -161,6 +161,7 @@ const preGameMenu = (() => {
 		let _weaponBox = document.createElement('div');
 		let _weaponImg = document.createElement('img');
 		_weaponImg.setAttribute('src', `${_weapon}`);
+        _weaponImg.classList.add('active-weapon-opp');
 		_weaponBox.appendChild(_weaponImg);
 
 		let _resultSpan = document.createElement('span');
@@ -390,8 +391,6 @@ const preGameMenu = (() => {
         _indicateTurn();
 	};
 
-    // implement _checkForTie()
-    // change weapon color for opponent during active game
     // break up code into 2 separate modules:
         // pre game menu
         // active game
